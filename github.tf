@@ -15,7 +15,7 @@ data "tls_public_key" "user_provided" {
 resource "github_repository_deploy_key" "flux" {
   count      = var.github_install_deploy_key == true ? 1 : 0
   title      = var.github_deploy_key_title
-  repository = var.github_repository_name
+  repository = "${var.github_repository_owner}/${var.github_repository_name}"
   read_only  = false
   key        = length(tls_private_key.flux) > 0 ? tls_private_key.flux[0].public_key_openssh : data.tls_public_key.user_provided[0].public_key_openssh
 }
